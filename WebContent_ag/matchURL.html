@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare URL</title>
+<style>
+/*td {
+ width: 310px;
+}*/
+td{
+    word-wrap:break-word;
+    // width: 350px;
+}
+th#SAName{
+    //width: 350px;
+    width: 20%;
+}
+th#match{
+   // width: 100px;
+    width: 10%;
+}
+th#URLfromXML{
+    //width: 450px;
+     width: 35%;
+}
+th#URLinDB{
+   // width: 450px;
+   width: 35%;
+}
+table#URLTable {
+    table-layout:fixed;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="./js//ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+<!-- angular stuff -->
+<script src="./js/ajax/libs/angular.js/1.5.3/angular.min.js"></script>
+<script src="./js/ajax/libs/angular.js/1.5.3/angular-sanitize.min.js"></script>
+<!-- angular animate -->
+<script src="./js/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.min.js"></script>
+
+<!-- ng-Table -->
+<!-- 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0-beta.9/ng-table.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ng-table/1.0.0-beta.9/ng-table.js"></script>
+ -->
+ 
+<!-- angular-ui-bootstrap -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.2/ui-bootstrap-tpls.min.js"></script>
+
+<script src="./js/ng-ngrid-trowe.js"></script>
+
+<!-- angular-ui-bootstrap -->
+<script src="./js/ajax/libs/angular-ui-bootstrap/0.14.2/ui-bootstrap-tpls.min.js"></script>
+<script src="./js/app.js"></script>
+<script src="./js/MatchURLController.js"></script>
+
+</head>
+<body>
+	<div class="container-fluid">
+	<div  ng-app="SADiagApp1" ng-controller="MatchURLController as contr">
+			<div class="form-group">
+			  <div class="row">
+				<div class="col-md-2">
+					<label for="env"> Select Env</label><br>
+				    <select name="singleSelect" ng-model="env" class="form-control" ng-change="getURLData()">
+				      <option value="Dev2">Dev2</option>
+				      <option value="SIT2">SIT2</option>
+				      <option value="Qual2">Qual2</option>
+				      <!-- 
+				      <option value="Dev1">Dev2</option>
+				      <option value="SIT1">Dev2</option>
+				      <option value="Qual1">Qual2</option>
+				       -->
+				    </select>
+			    </div>
+			   </div>
+		    </div>
+	    	<div class="form-group">
+            	<label >Search</label>
+            	<input type="text" ng-model="search" class="form-control" placeholder="Search">
+        	</div>
+			<table ng-table="tableParams" id="URLTable" class="table table-condensed table-bordered table-hover table-striped" show-filter="true">
+				 
+				   <thead>
+				        <tr>
+				            <th id="SAName">Service Agent</th>
+				     		<th id="match">Match</th>
+				            <th id="URLfromXML">URL formed from XML</th>
+				            <th id="URLinDB">URL in db</th>
+
+				        </tr>
+				    </thead>
+				    
+				    <tbody id="URLTableBody"> 
+				    	<tr ng-repeat="row in URLData|filter:search">
+				    		<td data-title="'Service Agent'" filter="{'serviceAgentName': 'text'}" sortable="'serviceAgentName'">{{row.serviceAgentName}}</td>
+				    		<td data-title="'Match'" filter="{'urlsMatch': 'text'}" sortable="'urlsMatch'">{{row.urlsMatch}}</td>
+				    		<td data-title="'URL formed from XML'">{{row.urlfromXml}}</td>
+				    		<td data-title="'URL in db'">{{row.urlfromDB}}</td> 		
+				    	</tr>
+					</tbody> 
+					 
+			</table>
+			<!-- 
+			<ng-ngrid-trowe column-definitions="columnDefinitionsServiceAgents"
+	                  rows="URLData"
+	                  row-footerdefinitions="footerServiceAgent"
+	                  rows-loading="agentsLoading"
+	                  rows-loading-text="Getting URLs for comparison..."
+	                  initial-pagesize="15"
+	                  initial-sortcolumn="intialSortColumn"
+	                  initial-sortdesc="intialSortDesc"
+	                  show-row-numbers="false"
+	                  show-row-selector="false"
+	                  grid-height-stretch-bottom-offset="navbarheight"
+	                  grid-filters-changed="onGridFiltersChanged(filterColumnName, filters,isAdded)"
+	                  add-column-filters="addColFilters">
+	        </ng-ngrid-trowe>
+	         -->
+		</div>
+		</div>
+  <script>
+ 	
+  </script>
+</body>
+</html>

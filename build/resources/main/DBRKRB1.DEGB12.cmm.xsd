@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:cim="http://trp/inv/cim/1.0" xmlns:tns="http://trp/inv/cmm/1.0" targetNamespace="http://trp/inv/cmm/1.0" elementFormDefault="qualified">
+
+  <import namespace="http://trp/inv/cim/1.0"/>
+
+  <element name="Message" type="tns:AbstractMessage"/>
+
+  <complexType name="AbstractMessage" abstract="true"/>
+
+  <complexType name="Message-v1.0">
+    <complexContent>
+      <extension base="tns:AbstractMessage">
+        <sequence>
+          <element name="Body" type="tns:MessageBody"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="MessageBody" abstract="true"/>
+
+  <complexType name="Document-v1.0">
+    <complexContent>
+      <extension base="tns:MessageBody">
+        <sequence>
+          <element name="Property">
+            <complexType>
+              <sequence>
+                <element ref="tns:Feed" minOccurs="0"/>
+                <element ref="tns:FeedFile" minOccurs="0" maxOccurs="unbounded"/>
+              </sequence>
+            </complexType>
+          </element>
+        <!--   <element name="Data" type="cim:Component" maxOccurs="unbounded"/> -->
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="DocumentRef-v1.0">
+    <complexContent>
+      <extension base="tns:MessageBody">
+        <sequence>
+          <element name="Property">
+            <complexType>
+              <sequence>
+                <element ref="tns:Feed" minOccurs="0"/>
+                <element ref="tns:FeedFile" minOccurs="0" maxOccurs="unbounded"/>
+              </sequence>
+            </complexType>
+          </element>
+          <element name="Part" maxOccurs="unbounded">
+            <complexType>
+              <sequence>
+                <element name="Type" type="QName"/>
+                <element name="DataFile" type="string"/>
+              </sequence>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <element name="Feed" type="string"/>
+  <element name="FeedFile" type="string"/>
+
+  <complexType name="Event" abstract="true">
+    <complexContent>
+      <extension base="tns:MessageBody"/>
+    </complexContent>
+  </complexType>
+
+  <complexType name="DataAvailable-v1.0">
+  <!-- Event URI: /trp/inv/cmm/event/datavailable/[Source]/[Type] -->
+    <complexContent>
+      <extension base="tns:Event">
+        <sequence>
+          <element name="Source" type="string"/>
+          <element name="Type" type="string"/>
+          <element name="Context" type="tns:EventContext"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="EventContext" abstract="true"/>
+
+  <complexType name="Command" abstract="true">
+    <complexContent>
+      <extension base="tns:MessageBody"/>
+    </complexContent>
+  </complexType>
+
+  <complexType name="DataQuery" abstract="true">
+    <complexContent>
+      <extension base="tns:Command"/>
+    </complexContent>
+  </complexType>
+
+  <complexType name="DataQuery-v1.0">
+    <complexContent>
+      <extension base="tns:DataQuery">
+        <sequence>
+          <element name="Type" type="string"/>
+          <element name="Version" type="decimal"/>
+          <element name="Selector" type="string"/>
+          <element name="ResultFormat" type="string"/>
+          <element name="NullValue" type="string" minOccurs="0"/>
+          <element name="Reply" type="string"/>
+          <element name="Include" type="string" minOccurs="0" maxOccurs="unbounded"/>
+          <element name="Exclude" type="string" minOccurs="0" maxOccurs="unbounded"/>
+          <element name="Sort" minOccurs="0" maxOccurs="unbounded">
+            <complexType>
+              <simpleContent>
+                <extension base="string">
+                  <attribute name="order" type="string"/>
+                </extension>
+              </simpleContent>
+            </complexType>
+          </element>
+          <element name="Argument" minOccurs="0" maxOccurs="unbounded" nillable="true">
+            <complexType>
+              <simpleContent>
+                <extension base="string">
+                  <attribute name="param" type="string" use="required"/>
+                </extension>
+              </simpleContent>
+            </complexType>
+          </element>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+  <complexType name="IssuePublication-v1.0">
+    <complexContent>
+      <extension base="tns:Command">
+        <sequence>
+          <element name="Name" type="string"/>
+          <element name="Owner" type="string"/>
+          <element name="TargetURL" type="string"/>
+          <element name="EmptyResult">
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="FAIL"/>
+                <enumeration value="SKIP"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element name="DataQuery" type="tns:DataQuery"/>
+        </sequence>
+      </extension>
+    </complexContent>
+  </complexType>
+
+</schema>

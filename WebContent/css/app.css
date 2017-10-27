@@ -1,0 +1,21 @@
+.navbar-default {
+    background-color: #DCDCDC
+}
+.navbar-default .navbar-brand {
+    color: #8B0000;
+}
+.navbar-default .navbar-nav>li>a {
+    color: #8B0000;
+}
+.table-striped>tbody>tr:nth-of-type(even) {
+    background-color: #ffffff;
+}
+body {
+	padding-top:120px;
+}
+.panel-body {
+	background:#F2FCFF;
+}
+.btn-success {
+	background:#009973;
+}

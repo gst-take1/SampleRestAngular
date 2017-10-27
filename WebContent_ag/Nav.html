@@ -1,0 +1,102 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation" id="topnavbar">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		       <a class="navbar-brand" href="index.html">Argus Home</a>
+		    </div>
+		    <div class="navbar-collapse collapse ">
+		      <ul class="nav nav-pills inline" id="mainTab">
+		        <li id="liEnv"><a href="monitor.html"><span class="glyphicon glyphicon-list"></span>&nbsp;Environments</a></li>
+		        <li id="liMonSrc"">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><span class="glyphicon glyphicon-list">
+						<span class="caret"></span>
+						</span>&nbsp;Monitor Sources
+					</a>
+					<ul class="dropdown-menu" role="menu">
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="srcBarchart.html"><span class="glyphicon glyphicon-stats"></span>&nbsp;Graphical View</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="srcTabPattern.html"><span class="glyphicon glyphicon-th-large"></span>&nbsp;Tabular View (Summary)</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="srcTabFiles.html"><span class="glyphicon glyphicon-th"></span>&nbsp;Tabular View (Detail)</a>
+                                    </li>
+                     </ul>					
+				</li>
+				<li id="liMonPub">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><span class="glyphicon glyphicon-list">
+						<span class="caret"></span>
+						</span>&nbsp;Monitor Publications
+					</a>
+					<ul class="dropdown-menu" role="menu">
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="pubBarchart.html"><span class="glyphicon glyphicon-stats"></span>&nbsp;Graphical View</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="publicationsTabPattern.html"><span class="glyphicon glyphicon-th-large"></span>&nbsp;Tabular View (Summary)</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="publicationsTabFiles.html"><span class="glyphicon glyphicon-th"></span>&nbsp;Tabular View (Detail)</a>
+                                    </li>
+                     </ul>					
+				</li>
+				<li id="liSrcSched">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><span class="glyphicon glyphicon-list">
+						<span class="caret"></span>
+						</span>&nbsp;Source Schedules
+					</a>
+					<ul class="dropdown-menu" role="menu">
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="srcSched.html"><span class="glyphicon glyphicon-dashboard"></span>&nbsp;Source Rules</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="srcSchedExe.html"><span class="glyphicon glyphicon-play"></span>&nbsp;Source Rules - Results</a>                                      
+                                    </li>
+                     </ul>					
+				</li>
+				<li id="liPubSched">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><span class="glyphicon glyphicon-list">
+						<span class="caret"></span>
+						</span>&nbsp;Publication Schedules
+					</a>
+					<ul class="dropdown-menu" role="menu">
+                                    <li role="presentation">
+                                        <a role="menuitem" tabindex="-1" href="pubSched.html"><span class="glyphicon glyphicon-dashboard"></span>&nbsp;Publication Rules</a>  
+                                     </li>
+                                    <li role="presentation">                                     
+                                        <a role="menuitem" tabindex="-1" href="pubSchedExe.html"><span class="glyphicon glyphicon-play"></span>&nbsp;Publication Rules - Results</a>                                       
+                                    </li>
+                     </ul>					
+				</li>				
+				<li id="liTrends">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"><span class="glyphicon glyphicon-list">
+						<span class="caret"></span>
+						</span>&nbsp;Trends
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li role="presentation">
+							<a role="menuitem" tabindex="-1" href="srcTrendBarchart.html"><span class="glyphicon glyphicon-dashboard"></span>&nbsp;Source - Hours of Day</a>
+						</li>
+                        <li role="presentation">
+							<a role="menuitem" tabindex="-1" href="pubTrendBarchart.html"><span class="glyphicon glyphicon-dashboard"></span>&nbsp;Publication - Hours of Day</a>
+						</li>
+                        <li role="presentation">
+							<a role="menuitem" tabindex="-1" href="throughputBarchart.html"><span class="glyphicon glyphicon-stats"></span>&nbsp;Source To Publication - Turn Around Time</a>
+						</li>
+					</ul>
+				</li>
+				<li id="liTgr"><a href="pubToSrcPattern.html"><span class="glyphicon glyphicon-list"></span>&nbsp;Publication Triggers</a></li>
+		      </ul>
+		      <ul class="nav navbar-nav navbar-right">
+      			<li><a href="#"><span class="glyphicon glyphicon-user"></span> Welcome {{loggedInUser}}</a></li>
+    		  </ul>
+    		</div>
+		  </div>
+		</nav>
+		<script>
+			$(document).ready(function () {
+				$("#mainTab > li").removeClass("active");
+				//alert(sessionStorage.clickedTabId);
+				$("#"+sessionStorage.clickedTabId).addClass("active");
+			});
+		</script>

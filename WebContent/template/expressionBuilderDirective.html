@@ -1,0 +1,31 @@
+<div class="alert alert-warning alert-group">
+		<div class="form-inline">
+            	<button style="margin-left: 5px" ng-click="addCondition()" class="btn  btn-success" ng-disabled="fields.length == 0"><span class="glyphicon glyphicon-plus-sign"></span> Add a single condition</button>
+            	<button style="margin-left: 5px" ng-click="addGroup()" class="btn  btn-success" ng-disabled="fields.length == 0"><span class="glyphicon glyphicon-plus-sign"></span> Add a sub group</button>
+				<select style="margin-left: 5px" ng-options="op as op for op in connectiveOp" ng-model="group.operator" class="form-control"></select>
+				<button style="margin-left: 550px" ng-click="removeGroup()" class="btn  btn-danger" ng-disabled="fields.length == 0"  data-toggle="tooltip" data-placement="right" title="Delete this group"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+        <div class="group-conditions">
+            <div ng-repeat="rule in group.rules | orderBy:'index'" class="condition">
+                <div ng-switch="rule.hasOwnProperty('group')">
+                    <div ng-switch-when="true">
+                        <expression-builder group="rule.group" fields="fields" comparison-op="comparisonOp" connective-op="connectiveOp" on-change-value-type="changeValueType()"></expression-builder>
+                    </div>
+                    <div ng-switch-default="ng-switch-default">
+                        <div class="form-inline">
+                            <select ng-options="field as field.attrName for field in fields" ng-model="rule.field" class="form-control" ng-change="setValueTypeOptions(rule)"></select>
+                            <select style="margin-left: 5px" ng-options="op as op for op in comparisonOp" ng-model="rule.condition" class="form-control"></select>
+                            <input style="margin-left: 5px" type="text" ng-model="rule.data" ng-blur="changeValueType(rule)" class="form-control" placeholder="{{rule.field.attrType}}"/>
+							<select style="margin-left: 5px" ng-model="rule.valueType" ng-options="valueOption.value as valueOption.name for valueOption in rule.valueTypeOptions" class="form-control help" ng-change="changeValueType(rule)">
+							<!-- /*ng-options="valueOption.value as valueOption.name for valueOption in rule.valueTypeOptions"*/
+								 <option value="hardcoded" ng-enabled ="rule.field.attrType!='date' && rule.field.attrType!='timestamp'">Hard coded value</option>
+								<option value="arg">Placeholder substituted at run time</option> -->
+							</select>
+							<strong><i>&nbsp;&nbsp;{{group.operator}}</i></strong>
+                            <button style="margin-left: 50px" ng-click="removeCondition($index)" class="btn btn-danger"  data-toggle="tooltip" data-placement="right" title="Delete condition"><span class="glyphicon glyphicon-minus-sign"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

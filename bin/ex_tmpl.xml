@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Template xmlns="http://trp/inv/atlas/1.0" xmlns:ns2="http://trp/inv/cmm/1.0">
+    <Name>gst_FXRAte_USD</Name>
+    <Owner>appdz28</Owner>
+    <CreatedTime>2016-06-14T22:01:10.022-04:00</CreatedTime>
+    <ModifiedTime>2016-06-14T22:01:10.022-04:00</ModifiedTime>
+    <Query xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ns2:DataQuery-v1.0">
+        <ns2:Type>FXRatePublication</ns2:Type>
+        <ns2:Version>3.0</ns2:Version>
+        <ns2:Selector>{string cu : ToCurrencyCode = cu}</ns2:Selector>
+        <ns2:ResultFormat>text/html</ns2:ResultFormat>
+        <ns2:Reply>DIRECT</ns2:Reply>
+        <ns2:Exclude>DeleteIndicator</ns2:Exclude>
+        <ns2:Sort order="ascending">ExchangeRateEffectiveDate</ns2:Sort>
+        <ns2:Argument param="cu">USD</ns2:Argument>
+    </Query>
+</Template>

@@ -1,0 +1,102 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <title>Query Builder</title>
+<style>
+
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="./js/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+<script src="./js/ajax/libs/angular.js/1.5.3/angular.min.js"></script>
+<script src="./js/ajax/libs/angular.js/1.5.3/angular-sanitize.min.js"></script>
+ <!-- bootstrap -->
+<script src="./bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="./bootstrap-3.3.6-dist/css/bootstrap.min.css">
+
+
+<script src="./js/ListPubTemplatesController.js"></script>
+<link rel="stylesheet" href="./css/listTable.css">
+<style>
+/* body {
+	padding-top:120px;
+} */
+</style>
+</head>
+<body ng-app="URLBuilderApp" ng-controller="ListPubTemplatesController">
+	<div ng-include="'Nav.html'"></div>
+		<div class="container-fluid">
+		<div>
+		<div class="alert alert-danger ng-cloak" ng-show="error">
+		  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		  <strong>Error!</strong> Action could not be completed due to error.
+		</div>
+		<div class="form-group">
+            	<label >Search</label>
+            	<input type="text" ng-model="search" class="form-control" placeholder="Search">
+        </div>
+        
+		 <table class="table table-bordered table-hover table-striped table-fixedheader" show-filter="true">
+			 <thead>
+			 	<tr style="font-weight: bold">
+			 	  <th style="width:2%" class="bg-primary"><input type="checkbox" class="checkbox" ng-click="toggleSelectAll()" ng-model="selectAll"></th>
+			      <th style="width:24%" class="bg-primary"><span ng-click="sortType = 'name'; sortReverse = !sortReverse" style="cursor:pointer">Template Name <span ng-show="sortType == 'name'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:24%" class="bg-primary"><span ng-click="sortType = 'owner'; sortReverse = !sortReverse" style="cursor:pointer">Owner <span ng-show="sortType == 'owner'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:24%" class="bg-primary"><span ng-click="sortType = 'createdTime'; sortReverse = !sortReverse" style="cursor:pointer">Created At <span ng-show="sortType == 'createdTime'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:24%" class="bg-primary"><span ng-click="sortType = 'modifiedTime'; sortReverse = !sortReverse" style="cursor:pointer">Updated At <span ng-show="sortType == 'modifiedTime'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			    </tr>
+		    <thead>
+		    <tbody style="height:580px">
+	        <tr ng-repeat="queryTemplateKey in queryTemplateKeysData|orderBy:sortType:sortReverse|filter:search as filteredQueryTemplateKeys" ng-class="{'info':queryTemplateKey.isSelected}">
+	        <td style="width:2%"><input type="checkbox" class="checkbox" ng-model="queryTemplateKey.isSelected" ng-click="updateAnyRowSelected()"></td>
+            <td style="width:24%">
+	            <span>
+          			<a ng-href="buildPubTemplate.jsp?name={{ queryTemplateKey.dsvcTplName }}&owner={{ queryTemplateKey.owner }}"/>{{ queryTemplateKey.name }}</a>
+        		</span>
+			</td>
+            <td style="width:24%">
+	            <span>
+          			{{ queryTemplateKey.owner }}
+        		</span>
+			</td>
+			<td style="width:24%">
+	            <span>
+          			{{ queryTemplateKey.createdTime | date:'yyyy-MM-dd HH:mm:ss'}}
+        		</span>
+			</td>
+			<td style="width:24%">
+	            <span>
+          			{{ queryTemplateKey.modifiedTime | date:'yyyy-MM-dd HH:mm:ss'}}
+        		</span>
+			</td>
+	        </tr>
+	        </tbody>
+	    </table>
+	    
+	    <!-- <button class="btn btn-primary" ng-click="exportSelectedToJson()" ng-disabled="!anyRowSelected">Export</button>
+	     <label class="btn btn-primary btn-file" ng-disabled="anyRowSelected">
+		    Import from File <input type="file" id="fileUploadJson" accept=".json" onchange="angular.element(this).scope().onFileUpload(this)" style="display: none;">
+		</label> -->
+		<button class="btn btn-primary" ng-click="" ng-disabled="!anyRowSelected">Deploy to Dev1</button>
+		<button class="btn btn-primary" ng-click="" ng-disabled="!anyRowSelected">Deploy to SIT1</button>
+		<button class="btn btn-primary" ng-click="" ng-disabled="!anyRowSelected">Deploy to Qual1</button>
+		<p></p>
+		<button class="btn btn-primary" ng-click="" ng-disabled="!anyRowSelected">Deploy to Dev2</button>
+		<button class="btn btn-primary" ng-click="" ng-disabled="!anyRowSelected">Deploy to SIT2</button>
+		<button class="btn btn-primary" ng-click="" ng-disabled="!anyRowSelected">Deploy to Qual2</button>
+		<div class="form-group">
+			<p>
+			<div class="alert alert-info ng-cloak" ng-show="successMsg">
+			  <a href="#" class="close" ng-click="successMsg = null" aria-label="close">&times;</a>
+			   <span ng-bind-html="successMsg"></span>
+			</div>
+			<div class="alert alert-danger ng-cloak" ng-show="errorMsg">
+			  <a href="#" class="close" ng-click="errorMsg = null" aria-label="close">&times;</a>
+			  <span ng-bind-html="errorMsg"></span>
+			</div>
+	    </div>
+	    </div>
+	</div>
+</body>

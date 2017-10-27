@@ -1,0 +1,27 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		       <a class="navbar-brand" href="indexPub.html">Investment Data Access<br><img src="logo.png"/></a>
+		    </div>
+		    <div>
+		      <ul class="nav nav-pills inline">
+				<li class="dropdown">
+					<li id="myPub"><a href="myPubTemplates.html"><span class="glyphicon glyphicon-list"></span>&nbsp;My Publications</a></li>
+					<li id="grpPub"><a href="groupPubTemplates.html"><span class="glyphicon glyphicon-list"></span>&nbsp;Group Publications</a></li>
+					<li id="allPub"><a href="allPubTemplates.html"><span class="glyphicon glyphicon-list"></span>&nbsp;All Publications</a></li>	
+					<li id="newPub"><a href="newPubTemplate.html"><span class="glyphicon glyphicon-list"></span>&nbsp;New Publication</a></li>	
+				</li>
+		      </ul>
+		      <ul class="nav navbar-nav navbar-right">
+      			<li><a href="#"><span class="glyphicon glyphicon-user"></span> {{loggedInUser}}</a></li>
+    		  </ul>
+		    </div>
+		  </div>
+		</nav>
+		<script>
+			$(document).ready(function () {
+				$("#mainTab > li").removeClass("active");
+				//alert(sessionStorage.clickedTabId);
+				$("#"+sessionStorage.clickedTabId).addClass("active");
+			});
+		</script>

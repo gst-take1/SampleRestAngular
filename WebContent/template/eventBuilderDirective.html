@@ -1,0 +1,30 @@
+<div class="alert alert-warning alert-group">
+		<div class="form-inline">
+            	<button style="margin-left: 5px" ng-click="addCondition()" class="btn  btn-success" ng-disabled="fields.length == 0"><span class="glyphicon glyphicon-plus-sign"></span> Add a single condition</button>
+            	<button style="margin-left: 5px" ng-click="addGroup()" class="btn  btn-success" ng-disabled="fields.length == 0"><span class="glyphicon glyphicon-plus-sign"></span> Add a sub group</button>
+				<select style="margin-left: 5px" ng-options="op as op for op in connectiveOp" ng-model="group.operator" class="form-control"></select>
+				<button style="margin-left: 550px" ng-click="removeGroup()" class="btn  btn-danger" ng-disabled="fields.length == 0"  data-toggle="tooltip" data-placement="right" title="Delete this group"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
+        <div class="group-conditions">
+            <div ng-repeat="rule in group.rules | orderBy:'index'" class="condition">
+                <div ng-switch="rule.hasOwnProperty('group')">
+                    <div ng-switch-when="true">
+                        <event-builder group="rule.group" fields="fields" comparison-op="comparisonOp" connective-op="connectiveOp" da-field-values="daFieldValues"></event-builder>
+                    </div>
+                    <div ng-switch-default="ng-switch-default">
+                        <div class="form-inline">
+                            <select ng-options="field.symbolName as field.symbolName for field in fields" ng-model="rule.field" class="form-control"  ng-change="changeType(rule)"></select>
+                            <select style="margin-left: 5px" ng-options="op as op for op in comparisonOp" ng-model="rule.condition" class="form-control"></select>
+                            <!-- <select ng-options="daFieldValue.values as daFieldValue.values for daFieldValue in daFieldValues | filter : {field:rule.field.symbolName} : true" ng-model="rule.data" class="form-control"></select> -->
+                            <!-- <select ng-options="daFieldValue as daFieldValue for daFieldValue in daFieldValues[0].values | filter : 'AMER' : true" ng-model="rule.data" class="form-control"></select> -->
+                           <!--  <ng-repeat ng-repeat="daFieldValue in daFieldValues | filter : {field:rule.field.symbolName} : true as thisFieldValues"> -->
+	                            <select ng-options="value as value for value in rule.thisFieldValues" ng-model="rule.data" class="form-control"></select>
+                           <!--  </ng-repeat> -->
+							<strong><i>&nbsp;&nbsp;{{group.operator}}</i></strong>
+                            <button style="margin-left: 50px" ng-click="removeCondition($index)" class="btn btn-danger"  data-toggle="tooltip" data-placement="right" title="Delete condition"><span class="glyphicon glyphicon-minus-sign"></span></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

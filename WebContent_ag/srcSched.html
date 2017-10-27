@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <title>Source Rules</title>
+<style>
+
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="./js/ajax/libs/jquery/1.11.3/jquery.min.js"></script> 
+<script src="./js/ajax/libs/angular.js/1.5.3/angular.min.js"></script>
+<script src="./js/ajax/libs/angular.js/1.5.3/angular-sanitize.min.js"></script>
+ <!-- bootstrap -->
+<script src="./bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="./bootstrap-3.3.6-dist/css/bootstrap.min.css">
+<!-- angular xeditable -->
+<script src="./js/ajax/libs/angular-xeditable/0.1.9/js/xeditable.min.js"></script>
+<link rel="stylesheet" href="./css/ajax/libs/angular-xeditable/0.1.9/css/xeditable.css"/>
+
+<script src="./js/SrcSchedController.js"></script>
+<link rel="stylesheet" href="./css/editableTable.css">
+<style>
+body {
+	padding-top:120px;
+}
+</style>
+</head>
+<body  ng-app="myApp" ng-controller="SrcSchedController">
+
+	<div ng-include="'Nav.html'"></div>
+		<div class="container-fluid">
+		<div>
+		<div class="form-group">
+			  <div class="row">
+				<div class="col-md-2" ng-show="allEnvs.length == 1">
+					<label for="env">Env:</label>
+				    {{schedRulesEnv}}
+			    </div>
+			    <div class="col-md-2" ng-show="allEnvs.length > 1">
+					<label for="env">Select Env</label><br>
+				    <select name="singleSelect" ng-model="schedRulesEnv" class="form-control" ng-options="en for en in allEnvs">
+				    </select>
+			    </div>
+			   </div>
+		</div>
+		<div class="alert alert-danger ng-cloak" ng-show="errorMsg">
+		  		<a href="#" class="close" ng-click="errorMsg = null" aria-label="close">&times;</a>
+		 		<span ng-bind-html="errorMsg"></span>
+		</div>
+		<div class="form-group">
+            	<label >Search</label>
+            	<input type="text" ng-model="search" class="form-control" placeholder="Search">
+        </div>
+        
+		 <table class="table table-bordered table-hover table-striped table-fixedheader" show-filter="true">
+			 <thead>
+			 	<tr style="font-weight: bold">
+			 	  <th style="width:2%" class="bg-primary"><input type="checkbox" class="checkbox" ng-click="toggleSelectAll()" ng-model="selectAll"></th>
+			      <th style="width:20%" class="bg-primary"><span ng-click="sortType = 'filePattern'; sortReverse = !sortReverse" style="cursor:pointer">Source File Pattern <span ng-show="sortType == 'filePattern'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:15%" class="bg-primary"><span ng-click="sortType = 'schedBeginTime'; sortReverse = !sortReverse" style="cursor:pointer">Scheduled Begin Time <span ng-show="sortType == 'schedBeginTime'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:15%" class="bg-primary"><span ng-click="sortType = 'schedEndTime'; sortReverse = !sortReverse" style="cursor:pointer">Scheduled End Time <span ng-show="sortType == 'schedEndTime'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:8%" class="bg-primary"><span ng-click="sortType = 'severity'; sortReverse = !sortReverse" style="cursor:pointer">Severity <span ng-show="sortType == 'severity'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:7%" class="bg-primary"><span ng-click="sortType = 'createdBy'; sortReverse = !sortReverse" style="cursor:pointer">Created By <span ng-show="sortType == 'createdBy'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:9%" class="bg-primary"><span ng-click="sortType = 'createdAt'; sortReverse = !sortReverse" style="cursor:pointer">Created At <span ng-show="sortType == 'createdAt'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:7%" class="bg-primary"><span ng-click="sortType = 'lastModBy'; sortReverse = !sortReverse" style="cursor:pointer">Updated By <span ng-show="sortType == 'lastModBy'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:9%" class="bg-primary"><span ng-click="sortType = 'lastModAt'; sortReverse = !sortReverse" style="cursor:pointer">Updated At <span ng-show="sortType == 'lastModAt'" class="glyphicon" ng-class="sortReverse?'glyphicon-chevron-down':'glyphicon-chevron-up'"></span></span></th>
+			      <th style="width:8%" class="bg-primary">Modify</th>
+			    </tr>
+		    <thead>
+		    <tbody style="height:580px">
+	        <tr ng-repeat="srcSched in srcSchedData|orderBy:sortType:sortReverse|filter:search as filteredSrcSched" ng-class="{'info':srcSched.isSelected}">
+	        	<td style="width:2%"><input type="checkbox" class="checkbox" ng-model="srcSched.isSelected" ng-click="updateAnyRowSelected()"></td>
+	            <td style="width:20%">
+	            <span editable-select="srcSched.filePattern" e-name="filePattern" e-form="rowform" e-ng-options="srcPattern for srcPattern in srcFilePatterns">
+          			{{ srcSched.filePattern || 'empty' }}
+        		</span>
+				</td>
+	            <td style="width:15%">
+	            <span editable-text="srcSched.schedBeginTime" e-name="schedBeginTime" e-form="rowform"  e-required>
+          			{{ srcSched.schedBeginTime || 'empty' }}
+        		</span>
+				</td>
+				<td style="width:15%">
+	            <span editable-text="srcSched.schedEndTime" e-name="schedEndTime" e-form="rowform"  e-required>
+          			{{ srcSched.schedEndTime || 'empty' }}
+        		</span>
+				</td>
+				<td style="width:8%">
+	            <span editable-select="srcSched.severity" e-name="severity" e-form="rowform"  e-ng-options="sev for sev in sevList">
+          			{{ srcSched.severity || 'empty' }}
+        		</span>
+        		</td>
+				<td style="width:7%">
+	            <span>
+	            	<a ng-href="https://home2.troweprice.com/sbs/people/{{ srcSched.createdBy }}"/>{{ srcSched.createdBy }}</a>
+        		</span>
+				</td>
+				<td style="width:9%">
+	            <span>
+          			{{ srcSched.createdAt | date:'yyyy-MM-dd HH:mm:ss'}}
+        		</span>
+				</td>
+				<td style="width:7%">
+	            <span>
+          			<a ng-href="https://home2.troweprice.com/sbs/people/{{ srcSched.lastModBy }}"/>{{ srcSched.lastModBy }}</a>
+        		</span>
+				</td>
+				<td style="width:9%">
+	            <span>
+          			{{ srcSched.lastModAt | date:'yyyy-MM-dd HH:mm:ss'}}
+        		</span>
+				</td>
+				<td style="width:8%">
+		        <!-- form -->
+		        <form editable-form name="rowform" onbeforesave="saveSrcSched($data, srcSched)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == srcSched">
+		         <span>
+		          <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-primary" data-toggle="tooltip" data-placement="right" title="Save"><span class="glyphicon glyphicon-floppy-save"></span></button>
+		          <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel();removeEmptyRow(srcSched);" class="btn btn-default" data-placement="right" title="Cancel"><span class="glyphicon glyphicon-remove"></span></button>
+		          </span>
+		        </form>
+		        <div class="buttons" ng-show="!rowform.$visible">
+		          <button class="btn btn-success" data-placement="right" title="Edit" ng-click="rowform.$show()"  ng-disabled="anyRowSelected"><span class="glyphicon glyphicon-pencil"></span></button> 
+		          <button class="btn btn-danger" data-placement="right" title="Delete" ng-click="removeSrcSched($index)" ng-disabled="anyRowSelected"><span class="glyphicon glyphicon-trash"></span></button>
+		        </div>  
+		      </td>
+	        </tr>
+	        </tbody>
+	    </table>
+	    <button class="btn btn-primary" ng-click="addSrcSched()" ng-disabled="search || anyRowSelected">Add Rule</button>
+	    <button class="btn btn-primary" ng-click="exportSelectedToJson()" ng-disabled="!anyRowSelected">Export</button>
+	     <label class="btn btn-primary btn-file" ng-disabled="anyRowSelected">
+		    Import from File <input type="file" id="fileUploadJson" accept=".json" onchange="angular.element(this).scope().onFileUpload(this)" style="display: none;">
+		</label>
+		<button class="btn btn-primary" ng-click="updatePanelOpened = true" ng-disabled="!anyRowSelected">Update Rules</button>
+		<div class="panel panel-default form-group" ng-show="updatePanelOpened">
+    		<div class="panel-body">Populate the field(s) to update. (Fields not being updated should remain blank)<a href="#" class="close" ng-click="updatePanelOpened = false" aria-label="close">&times;</a>
+	    		<p>
+	    		<div class="row from-group">
+		    		<div class="col-md-4 from-group"><label>Scheduled Begin Time</label><input type="text" class="form-control" ng-model="updSchedBgnTime"></div>
+		    		<div class="col-md-4 from-group"><label>Scheduled End Time</label><input type="text" class="form-control col-md-4" ng-model="updSchedEndTime"></div>
+		    		<div class="col-md-4 from-group">
+		    			<label>Severity</label>
+		    			<select ng-model="updSeverity" class="form-control col-md-4" ng-options="sev for sev in sevList">
+		    				<option></option>
+		    			</select>
+		    		</div>
+	    		</div>
+	    		<br>
+	    		<button class="btn btn-primary" ng-click="updateSelected()" ng-disabled="!updSchedBgnTime && !updSchedEndTime && !updSeverity">Submit</button>
+			</div>
+		</div>
+		<div class="form-group">
+			<p>
+			<div class="alert alert-info ng-cloak" ng-show="importSuccessMsg">
+			  <a href="#" class="close" ng-click="importSuccessMsg = null" aria-label="close">&times;</a>
+			   <span ng-bind-html="importSuccessMsg"></span>
+			</div>
+			<div class="alert alert-danger ng-cloak" ng-show="importErrorMsg">
+			  <a href="#" class="close" ng-click="importErrorMsg = null" aria-label="close">&times;</a>
+			  <span ng-bind-html="importErrorMsg"></span>
+			</div>
+	    </div>
+	    </div>
+	</div>
+</body>

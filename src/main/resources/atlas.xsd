@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://trp/inv/atlas/1.0" xmlns:cmm="http://trp/inv/cmm/1.0" targetNamespace="http://trp/inv/atlas/1.0" elementFormDefault="qualified">
+
+  <import namespace="http://trp/inv/cmm/1.0" schemaLocation="DBRKRB1.DEGB12.cmm.xsd"/>
+
+  <group name="DatasetKey">
+    <sequence>
+      <element name="Type" type="string"/>
+      <element name="Version" type="decimal"/>
+    </sequence>
+  </group>
+
+  <element name="DatasetKeys">
+    <complexType>
+      <sequence>
+        <element name="DatasetKey" minOccurs="0" maxOccurs="unbounded">
+          <complexType>
+            <group ref="tns:DatasetKey"/>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="Dataset">
+    <complexType>
+      <sequence>
+        <group ref="tns:DatasetKey"/>
+        <element name="TableExpr" type="string"/>
+        <element name="Attr" minOccurs="0" maxOccurs="unbounded">
+          <complexType>
+            <sequence>
+              <element name="Name" type="string"/>
+              <element name="Type" type="string"/>
+              <element name="Column" type="string"/>
+            </sequence>
+            <attribute name="index" type="decimal" use="required"/>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <group name="TemplateKey">
+    <sequence>
+      <element name="Name" type="string"/>
+      <element name="Owner" type="string"/>
+      <element name="CreatedTime" type="dateTime"/>
+      <element name="ModifiedTime" type="dateTime"/>
+    </sequence>
+  </group>
+
+  <element name="TemplateKeys">
+    <complexType>
+      <sequence>
+        <element name="TemplateKey" minOccurs="0" maxOccurs="unbounded">
+          <complexType>
+            <group ref="tns:TemplateKey"/>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="Template">
+    <complexType>
+      <sequence>
+        <group ref="tns:TemplateKey"/>
+        <element name="Query" type="cmm:DataQuery"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="QueryPlan">
+    <complexType>
+      <sequence>
+        <element name="Type" type="string"/>
+        <element name="Version" type="decimal"/>
+        <element name="Result">
+          <complexType>
+            <sequence>
+              <element name="Attr" maxOccurs="unbounded">
+                <complexType>
+                  <sequence>
+                    <element name="Name" type="string"/>
+                    <element name="Type" type="string"/>
+                    <element name="Column" type="string"/>
+                  </sequence>
+                  <attribute name="index" type="decimal" use="required"/>
+                </complexType>
+              </element>
+              <element name="Delimiters" type="string"/>
+            </sequence>
+          </complexType>
+        </element>
+        <element name="SQL" type="string"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="QueryContext">
+    <complexType>
+      <sequence>
+        <element ref="cmm:Message"/>
+        <element ref="tns:Selector"/>
+        <element ref="tns:Dataset"/>
+      </sequence>
+    </complexType>
+  </element>
+
+  <element name="Selector">
+    <complexType>
+      <sequence>
+        <element name="Param" minOccurs="0" maxOccurs="unbounded">
+          <complexType>
+            <simpleContent>
+              <extension base="string">
+                <attribute name="id" type="int" use="required"/>
+                <attribute name="type" type="QName" use="required"/>
+                <attribute name="array" type="boolean"/>
+              </extension>
+            </simpleContent>
+          </complexType>
+        </element>
+        <element name="Attr" minOccurs="0" maxOccurs="unbounded">
+          <complexType>
+            <simpleContent>
+              <extension base="string">
+                <attribute name="id" type="int" use="required"/>
+              </extension>
+            </simpleContent>
+          </complexType>
+        </element>
+        <element name="Expression">
+          <complexType>
+            <group ref="tns:Expression"/>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
+
+  <group name="Expression">
+    <choice>
+      <group ref="tns:Atom"/>
+      <group ref="tns:Composite"/>
+      <group ref="tns:Operation"/>
+    </choice>
+  </group>
+
+  <group name="Composite">
+    <choice>
+      <element name="Array">
+        <complexType>
+          <sequence minOccurs="0" maxOccurs="unbounded">
+            <group ref="tns:Expression"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FunctionCall">
+        <complexType>
+          <choice minOccurs="0" maxOccurs="unbounded">
+            <group ref="tns:Expression"/>
+            <element name="Constant" type="string"/>
+          </choice>
+          <attribute name="function" type="string" use="required"/>
+        </complexType>
+      </element>
+      <element name="Group">
+        <complexType>
+          <group ref="tns:Expression"/>
+        </complexType>
+      </element>
+    </choice>
+  </group>
+
+  <group name="Operation">
+    <choice>
+      <group ref="tns:BinaryOperation"/>
+      <group ref="tns:UnaryOperation"/>
+    </choice>
+  </group>
+
+  <group name="Atom">
+    <choice>
+      <element name="AttrRef">
+        <complexType>
+          <simpleContent>
+            <extension base="string">
+              <attribute name="id" type="int" use="required"/>
+            </extension>
+          </simpleContent>
+        </complexType>
+      </element>
+      <element name="Literal" nillable="true">
+        <complexType>
+          <simpleContent>
+            <extension base="string">
+              <attribute name="type" type="QName"/>
+            </extension>
+          </simpleContent>
+        </complexType>
+      </element>
+      <element name="ParamRef">
+        <complexType>
+          <simpleContent>
+            <extension base="string">
+              <attribute name="id" type="int" use="required"/>
+            </extension>
+          </simpleContent>
+        </complexType>
+      </element>
+    </choice>
+  </group>
+
+  <group name="BinaryOperation">
+    <choice>
+      <element name="Comparison" type="tns:BinaryOperation"/>
+      <element name="Connective" type="tns:BinaryOperation"/>
+    </choice>
+  </group>
+
+  <complexType name="BinaryOperation">
+    <sequence>
+      <group ref="tns:Expression"/>
+      <group ref="tns:Expression"/>
+    </sequence>
+    <attribute name="op" type="string" use="required"/>
+  </complexType>
+
+  <group name="UnaryOperation">
+    <choice>
+      <element name="Not" type="tns:UnaryOperation"/>
+    </choice>
+  </group>
+
+  <complexType name="UnaryOperation">
+    <group ref="tns:Expression"/>
+    <attribute name="op" type="string" use="required"/>
+  </complexType>
+
+</schema>

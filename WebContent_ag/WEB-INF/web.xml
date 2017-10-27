@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>audit</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+  </welcome-file-list>
+  
+	<context-param>
+		<param-name>resteasy.servlet.mapping.prefix</param-name>
+		<param-value>/rest</param-value>
+	</context-param>
+	 
+	<servlet>
+		<servlet-name>rest-servlet</servlet-name>
+		<!--
+		<servlet-class>
+			org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher
+		</servlet-class>
+		-->
+		<servlet-class>org.apache.wink.server.internal.servlet.RestServlet</servlet-class>
+		
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.trp.sa.diag.rest.SADiagApplication</param-value>
+		</init-param>
+	</servlet>
+     <servlet-mapping>
+		<servlet-name>rest-servlet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	
+	<filter>
+	   <filter-name>HostPortFilter</filter-name>
+	   <filter-class>com.trp.sa.diag.util.HostPortFilter</filter-class>
+	</filter>
+	<filter-mapping>
+	   <filter-name>HostPortFilter</filter-name>
+	   <url-pattern>/rest/*</url-pattern>
+	</filter-mapping>
+	
+	<resource-ref>      
+    <description>Datasource connection to db</description>
+    <res-ref-name>jdbc/idfAudDev1</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>   
+    <mapped-name>jdbc/idfAudDev1</mapped-name>  
+  </resource-ref>
+  
+  <resource-ref>      
+    <description>Datasource connection to db</description>
+    <res-ref-name>jdbc/idfAudDev2</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>   
+    <mapped-name>jdbc/idfAudDev2</mapped-name>  
+  </resource-ref>
+  
+  <resource-ref>      
+    <description>Datasource connection to db</description>
+    <res-ref-name>jdbc/idfAudSIT1</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>   
+    <mapped-name>jdbc/idfAudSIT1</mapped-name>  
+  </resource-ref>
+  
+  <resource-ref>      
+    <description>Datasource connection to db</description>
+    <res-ref-name>jdbc/idfAudSIT2</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>   
+    <mapped-name>jdbc/idfAudSIT2</mapped-name>  
+  </resource-ref>
+  
+  <resource-ref>      
+    <description>Datasource connection to db</description>
+    <res-ref-name>jdbc/idfAudQual1</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>   
+    <mapped-name>jdbc/idfAudQual1</mapped-name>  
+  </resource-ref>
+  
+  <resource-ref>      
+    <description>Datasource connection to db</description>
+    <res-ref-name>jdbc/idfAudQual2</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>   
+    <mapped-name>jdbc/idfAudQual2</mapped-name>  
+  </resource-ref>
+  
+  <resource-ref>      
+    <description>Datasource connection to db</description>
+    <res-ref-name>jdbc/idfAudProd</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>   
+    <mapped-name>jdbc/idfAudProd</mapped-name>  
+  </resource-ref>
+	
+  <security-constraint>
+	    <web-resource-collection>
+	      <web-resource-name>All</web-resource-name>
+	      <url-pattern>/rest/sa/*</url-pattern>
+	      <http-method>GET</http-method>
+	      <http-method>POST</http-method>
+	    </web-resource-collection>
+	   <auth-constraint>
+	      <role-name>ArgusRead</role-name>
+	      <role-name>ArgusWrite</role-name>
+	    </auth-constraint>
+	    <user-data-constraint>
+	      <transport-guarantee>NONE</transport-guarantee>
+	    </user-data-constraint> 
+    </security-constraint>
+    <security-constraint>
+	    <web-resource-collection>
+	      <web-resource-name>Admin</web-resource-name>
+	      <url-pattern>/rest/admin/*</url-pattern>
+	      <http-method>GET</http-method>
+	      <http-method>POST</http-method>
+	    </web-resource-collection>
+	   <auth-constraint>
+	      <role-name>ArgusWrite</role-name>
+	    </auth-constraint>
+	    <user-data-constraint>
+	      <transport-guarantee>NONE</transport-guarantee>
+	    </user-data-constraint> 
+    </security-constraint>
+    <security-constraint>
+	    <web-resource-collection>
+	      <web-resource-name>System</web-resource-name>
+	      <url-pattern>/rest/rulesExec/*</url-pattern>
+	      <http-method>GET</http-method>
+	      <http-method>POST</http-method>
+	    </web-resource-collection>
+	   <auth-constraint>
+	      <role-name>ArgusExec</role-name>
+	    </auth-constraint>
+	    <user-data-constraint>
+	      <transport-guarantee>NONE</transport-guarantee>
+	    </user-data-constraint> 
+    </security-constraint>
+    
+	<login-config>
+	    <auth-method>BASIC</auth-method>
+	    <realm-name>file</realm-name>
+  	</login-config>
+   	<security-role>
+	    <role-name>ArgusRead</role-name>
+	</security-role>
+  	<security-role>
+    	<role-name>ArgusWrite</role-name>
+  	</security-role>
+  	<security-role>
+    	<role-name>ArgusExec</role-name>
+  	</security-role>
+</web-app>

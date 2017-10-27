@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <title>Publication Triggers</title>
+<style>
+
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="./js/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="./js/ajax/libs/angular.js/1.5.3/angular.min.js"></script>
+<script src="./js/ajax/libs/angular.js/1.5.3/angular-sanitize.min.js"></script>
+<!-- angular animate -->
+<script src="./js/ajax/libs/angular.js/1.5.0-beta.1/angular-animate.min.js"></script>
+<!-- bootstrap -->
+<script src="./bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="./bootstrap-3.3.6-dist/css/bootstrap.min.css">
+<!-- angular-ui-bootstrap -->
+<script src="./js/ajax/libs/angular-ui-bootstrap/0.14.2/ui-bootstrap-tpls.min.js"></script>
+<!-- d3-->
+<script src="./js/ajax/libs/d3/3.3.13/d3.min.js"></script>
+<script src="./js/ajax/libs/nvd3/1.1.15-beta/nv.d3.min.js"></script>
+<script src="./js/angularjs-nvd3-directives/lib/angularjs-nvd3-directives/dist/angularjs-nvd3-directives.js"></script>
+<link rel="stylesheet" href="./css/ajax/libs/nvd3/1.1.15-beta/nv.d3.min.css"/>
+        
+<script src="./js/app.js"></script>
+<script src="./js/PubToSrcPatternController.js"></script>
+
+<script src="./js/ng-ngrid-trowe.js"></script>
+<link rel="stylesheet" href="./css/ngGridTrowe.css">
+<style>
+body {
+	padding-top:120px;
+}
+</style>
+</head>
+<body ng-app="SADiagApp" ng-controller="PubToSrcPatternController">
+	<div ng-include="'Nav.html'"></div>
+	<div class="container-fluid">
+   		<div>
+   			<div class="form-group">
+				  <div class="row">
+					<div class="col-md-2" ng-show="allEnvs.length == 1">
+						<label for="env">Env:</label>
+					    {{env}}
+				    </div>
+				    <div class="col-md-2" ng-show="allEnvs.length > 1">
+						<label for="env">Select Env</label><br>
+					    <select name="singleSelect" ng-model="env" class="form-control" ng-options="en for en in allEnvs">
+					    </select>
+				    </div>
+				   </div>
+				</div>
+        	<!-- 
+        	<div class="form-group">
+	        	<div class="checkbox">
+	        		<label class="radio-inline"> <input type="radio" ng-model="patternFilter" value="updates"/>Updates</label>		
+	        		<label class="radio-inline"> <input type="radio" ng-model="patternFilter" value="fulls"/>Fulls</label>
+	        		<label class="radio-inline"> <input type="radio" ng-model="patternFilter" value="all"/>All</label>
+	        	</div>
+        	</div>
+        	 -->
+        	<div class="alert alert-danger ng-cloak" ng-show="errorMsg">
+		  		<a href="#" class="close" ng-click="errorMsg = null" aria-label="close">&times;</a>
+		 		<span ng-bind-html="errorMsg"></span>
+			</div>
+			<span class="help-block">The following Pub mappings are not programmatically derived, and will not reflect changes unless manually corrected:
+								{{pubsHardCoded.join(", ")}}</span>
+			<ng-ngrid-trowe column-definitions="columnDefinitionsSrcFiles"
+	                  rows="srcFiles"
+	                  rows-loading="srcFilesLoading"
+	                  rows-loading-text="Getting Pub To Source File Pattern..."
+	                  initial-pagesize="initialPageSize"
+	                  initial-sortcolumn="intialSortColumn"
+	                  initial-sortdesc="intialSortDesc"
+	                  show-row-numbers="false"
+	                  show-row-selector="false"
+	                  grid-height-stretch-bottom-offset="navbarheight"
+	                  grid-filters-changed="onGridFiltersChanged(filterColumnName, filters,isAdded)"
+	                  add-column-filters="addColFilters"
+	                  table-height="500px">
+	        		</ng-ngrid-trowe>
+	</div>
+</body>

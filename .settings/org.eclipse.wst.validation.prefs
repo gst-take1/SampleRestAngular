@@ -1,0 +1,12 @@
+DELEGATES_PREFERENCE=delegateValidatorList
+USER_BUILD_PREFERENCE=enabledBuildValidatorListorg.eclipse.jst.j2ee.internal.classpathdep.ClasspathDependencyValidator;com.ibm.ast.ws.ext.validator.WsExtValidator;org.jboss.tools.common.validation.ValidatorManager;org.eclipse.jst.j2ee.internal.web.validation.UIWarValidator;org.eclipse.wst.wsi.ui.internal.WSIMessageValidator;com.ibm.jee.sdo.jdbc.ui.validators.JDBCMediatorConnectionFileValidator;
+USER_MANUAL_PREFERENCE=enabledManualValidatorListorg.eclipse.jst.j2ee.internal.classpathdep.ClasspathDependencyValidator;com.ibm.ast.ws.ext.validator.WsExtValidator;org.jboss.tools.common.validation.ValidatorManager;org.eclipse.jst.j2ee.internal.web.validation.UIWarValidator;org.eclipse.wst.wsi.ui.internal.WSIMessageValidator;com.ibm.jee.sdo.jdbc.ui.validators.JDBCMediatorConnectionFileValidator;
+USER_PREFERENCE=overrideGlobalPreferencestruedisableAllValidationfalseversion1.2.600.v201501211647
+eclipse.preferences.version=1
+override=true
+suspend=false
+vals/org.eclipse.angularjs.core.HTMLAngularValidator/global=TF01
+vals/org.eclipse.angularjs.jsp.core.JSPAngularContentValidator/global=TF01
+vals/org.eclipse.wst.html.core.HTMLValidator/global=FF01
+vals/tern.eclipse.ide.linter.core.TernValidator/global=FF03
+vf.version=3

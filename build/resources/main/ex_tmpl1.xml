@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<atlas:Template xmlns:atlas="http://trp/inv/atlas/1.0" xmlns:cmm="http://trp/inv/cmm/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <atlas:Name>SampleABC22</atlas:Name>
+  <atlas:Owner>appdz28</atlas:Owner>
+  <atlas:CreatedTime>2016-06-14T10:42:56.113963000</atlas:CreatedTime>
+  <atlas:ModifiedTime>2016-06-14T10:42:56.113963000</atlas:ModifiedTime>
+  <atlas:Query xsi:type="cmm:DataQuery-v1.0">
+    <cmm:Type>OtherHolidayPublication</cmm:Type>
+    <cmm:Version>1.1</cmm:Version>
+    <cmm:Selector>{ string ctry : CountryCode = ctry }</cmm:Selector>
+    <cmm:ResultFormat>text/csv</cmm:ResultFormat>
+    <cmm:Reply>DIRECT</cmm:Reply>
+    <cmm:Exclude>IDWBatchIdentifier</cmm:Exclude>
+    <cmm:Sort order="ascending">HolidayEffectiveDate</cmm:Sort>
+    <cmm:Argument param="ctry">US</cmm:Argument>
+  </atlas:Query>
+</atlas:Template>
